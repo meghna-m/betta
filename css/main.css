@@ -1,0 +1,109 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#site{
+    font-family: 'Questrial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    line-height: 2;
+}
+
+nav{
+    background-color:#5f9ea0; 
+    width: 100%; 
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #5f9ea0;
+    position: fixed;
+    /*top: 0;*/
+    width: 100%;
+  }
+  
+  li {
+      float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    background-color: #6bb0b3;
+  }
+  /*@media only screen and (max-width: 500px) {
+    shows elements in a column
+    ul{
+      flex-direction: column;
+    }
+    
+     deletes margin on top or bottom of the a tag
+    li{
+      margin: 0;
+    }
+    makes sure that the a tag will take the entire screen
+    a{
+      display: block;
+    }
+  }*/
+
+#header{
+    width: 100%;
+    padding-top: 2.5%;
+    padding-bottom: 2%;
+    background-color: #5f9ea0;
+}
+
+#header h1{
+    font-size: xx-large;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding-top: 2.5%;
+}
+
+#bio{
+    width: 100%;
+    padding-top: 5%;
+    padding-bottom: 30%;
+    background-color: #4a8c8f;
+    color: white;
+}
+
+#bio .heading{
+    width: 100%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+#bio .description{
+    width: 100%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    
+}
+
+#projects {
+    width: 100%;
+    padding-top: 5%;
+    padding-bottom: 40%;
+    background-color:#498082;
+    color: white;
+}
+
+
+
+
