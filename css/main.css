@@ -39,6 +39,7 @@ ul {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-size: 1vw;
   }
 
   li a:hover {
@@ -60,6 +61,11 @@ ul {
     }
   }*/
 
+  @media screen and (max-width: 600px) {
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+  }
+
 #header{
     width: 100%;
     padding-top: 2.5%;
@@ -68,7 +74,7 @@ ul {
 }
 
 #header h1{
-    font-size: xx-large;
+    font-size: 4vw;
     align-items: center;
     text-align: center;
     color: white;
@@ -87,12 +93,14 @@ ul {
     width: 100%;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
+    font-size: 1.5vw;
 }
 
 #bio .description{
     width: 100%;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
+    font-size: 1vw;
     
 }
 
@@ -102,6 +110,7 @@ ul {
     padding-bottom: 40%;
     background-color:#498082;
     color: white;
+    font-size: 1.5vw;
 }
 
 
