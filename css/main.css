@@ -94,6 +94,8 @@ header a:hover{
 }
 
 footer{
+  padding-top: 10px;
+  padding-bottom: 5px;
   text-align: center;
   line-height: 1.6;
   color: white;
