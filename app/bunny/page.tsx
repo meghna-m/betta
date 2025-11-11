@@ -18,7 +18,7 @@ export default function Page() {
     setIsLoading(false);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (input === PASSWORD) {
       localStorage.setItem("protectedPassword", PASSWORD);
