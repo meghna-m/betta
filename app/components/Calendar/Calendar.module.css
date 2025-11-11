@@ -1,0 +1,153 @@
+/* Calendar.module.css */
+
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: auto;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.navigationButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.navButton {
+  background-color: #5386bb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.navButton:hover {
+  background-color: #0056b3;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.day:hover {
+  background-color: #28a745;
+  transform: scale(1.05);
+  color: white;
+}
+
+.checkedDay {
+  background-color: #28a745;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .calendarContainer {
+    max-width: 100%;
+    padding: 0.5rem;
+  }
+
+  .header {
+    font-size: 1.2rem;
+  }
+
+  .navButton {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .day {
+    padding: 0.8rem;
+  }
+}
+
+.statsBox {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+  
+  .statsTitle {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .statsRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .progressBar {
+    width: 100%;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+  }
+  
+  .goalReached {
+    background: #10b981;
+  }
+
+/* Add a pink theme for Jerry */
+.pinkTheme {
+  background-color: pink;
+}
+
+.pinkTheme .checkedDay {
+    background-color: #671a7a;
+    color: white;
+  }
+
+  .pinkTheme .day:hover {
+    background-color: #671a7a;
+    color: white;
+  }

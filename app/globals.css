@@ -1,0 +1,35 @@
+/* Removed Tailwind CSS imports */
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+/* Add your global styles here */
+body {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: #f9f9f9;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-family-primary: 'Questrial', sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+h1 {
+  margin: 0;
+  font-weight: 500;
+}
