@@ -9,6 +9,11 @@ body {
   background-color: #f9f9f9;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

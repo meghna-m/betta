@@ -11,8 +11,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.0",
     "@netlify/plugin-nextjs": "^5.14.5",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "firebase": "^12.5.0",
     "next": "16.0.1",
     "react": "19.2.0",
@@ -22,11 +24,34 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
     "eslint-config-next": "16.0.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
     "typescript": "^5"
   },
   "engines": {
     "node": "20.9.0"
+  },
+  "prettier": {
+    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "importOrder": [
+      "^react$",
+      "^next$",
+      "^@fortawesome/(.*)$",
+      "^firebase/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always"
   }
 }

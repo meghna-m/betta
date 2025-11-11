@@ -1,48 +1,68 @@
-import { useState, useEffect } from "react";
-import { db } from "../../firebase/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import styles from "./Calendar.module.css";
+import { useEffect, useState } from 'react';
+
+import {
+  faChevronLeft,
+  faChevronRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
+import { db } from '../../firebase/firebase';
+import styles from './Calendar.module.css';
 
 export default function Calendar() {
   const [year, setYear] = useState(2025);
+
   const [month, setMonth] = useState(new Date().getMonth());
-  const [checkedDays, setCheckedDays] = useState<number[]>([]);
+  const [checkedDays, setCheckedDays] = useState<Record<number, string>>({});
 
-  const userId = "jerry"
+  const userId = 'jerry';
 
-  const key = `${year}-${String(month + 1).padStart(2, "0")}`;
+  const key = `${year}-${String(month + 1).padStart(2, '0')}`;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+  const weekdays = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(year, month, i + 1);
+    return date.toLocaleString('default', { weekday: 'short' });
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const docRef = doc(db, "user", userId, "calendar", key);
+        const docRef = doc(db, 'user', userId, 'calendar', key);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setCheckedDays(docSnap.data().days || []);
+          setCheckedDays(docSnap.data().days || {});
         } else {
-          setCheckedDays([]);
+          setCheckedDays({});
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
     fetchData();
   }, [key, userId]);
 
   const toggleDay = async (day: number) => {
-    const updated = checkedDays.includes(day)
-      ? checkedDays.filter((d) => d !== day)
-      : [...checkedDays, day];
+    let updated = { ...checkedDays };
+
+    if (updated[day] === 'active') {
+      updated[day] = 'inactive';
+    } else if (updated[day] === 'inactive') {
+      delete updated[day];
+    } else {
+      updated[day] = 'active';
+    }
 
     setCheckedDays(updated);
 
     try {
-      const docRef = doc(db, "user", userId, "calendar", key);
+      const docRef = doc(db, 'user', userId, 'calendar', key);
       await setDoc(docRef, { days: updated });
     } catch (error) {
-      console.error("Error saving data:", error);
+      console.error('Error saving data:', error);
     }
   };
 
@@ -58,59 +78,127 @@ export default function Calendar() {
 
   const goalPercent = 80;
   const totalDays = daysInMonth;
-  const tickedCount = checkedDays.length;
+  const tickedCount = Object.values(checkedDays).filter(
+    (state) => state === 'active'
+  ).length;
   const targetDays = Math.ceil((goalPercent / 100) * totalDays);
   const currentProgress = Math.round((tickedCount / targetDays) * 100);
   const remainingToGoal = Math.max(0, targetDays - tickedCount);
 
+  const yearGoalPercent = 80;
+  const yearTotalDays = Array.from({ length: 12 }, (_, i) =>
+    new Date(year, i + 1, 0).getDate()
+  ).reduce((a, b) => a + b, 0);
+  const yearTickedCount = Object.values(checkedDays).filter(
+    (state) => state === 'active'
+  ).length;
+  const yearTargetDays = Math.ceil((yearGoalPercent / 100) * yearTotalDays);
+  const yearCurrentProgress = Math.round(
+    (yearTickedCount / yearTargetDays) * 100
+  );
+  const yearRemainingToGoal = Math.max(0, yearTargetDays - yearTickedCount);
+
   return (
     <div>
-    <div className={styles.calendarContainer}>
-      <h2 className={styles.header}>
-        {new Date(year, month).toLocaleString("default", { month: "long" })} {year}
-      </h2>
+      <div className={styles.calendarContainer}>
+        <h2 className={styles.header}>
+          {new Date(year, month).toLocaleString('default', { month: 'long' })}{' '}
+          {year}
+        </h2>
 
-      <div className={styles.navigationButtons}>
-        <button className={styles.navButton} onClick={prevMonth}>
-          &#9664;
-        </button>
-        <button className={styles.navButton} onClick={nextMonth}>
-          &#9654;
-        </button>
+        <div className={styles.navigationButtons}>
+          <button className={styles.navButton} onClick={prevMonth}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <button className={styles.navButton} onClick={nextMonth}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
+        </div>
+
+        <div className={styles.weekdaysRow}>
+          {weekdays.map((weekday, index) => (
+            <div key={index} className={styles.weekday}>
+              {weekday}
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.daysGrid}>
+          {daysArray.map((day) => (
+            <div
+              key={day}
+              onClick={() => toggleDay(day)}
+              className={`${styles.day} ${
+                checkedDays[day] === 'active'
+                  ? styles.activeDay
+                  : checkedDays[day] === 'inactive'
+                    ? styles.inactiveDay
+                    : ''
+              }`}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
       </div>
+      <div>
+        <div className={styles.statsBox}>
+          <h4 className={styles.statsTitle}> Monthly Summary</h4>
+          <div className={styles.statsRow}>
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{goalPercent}%</p>
+              <p className={styles.statsDescription}>Goal</p>
+            </div>
 
-      <div className={styles.daysGrid}>
-        {daysArray.map((day) => (
-          <div
-            key={day}
-            onClick={() => toggleDay(day)}
-            className={`${styles.day} ${
-              checkedDays.includes(day) ? styles.checkedDay : ""
-            }`}
-          >
-            {day}
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{currentProgress}%</p>
+              <p className={styles.statsDescription}>Active %</p>
+            </div>
+
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{remainingToGoal}</p>
+              <p className={styles.statsDescription}>Remaining Days</p>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-    <div>
-    <div className={styles.statsBox}>
-        <div  className={styles.statsTitle}><div>📊 Monthly Stats</div>          <div>🎯 <strong>Goal:</strong> {goalPercent}%</div>
-        </div>
-        <div className={styles.statsRow}>
-          <div>✅ <strong>Progress:</strong> {currentProgress}%</div>
-          <div>📆 <strong>Days to goal:</strong> {remainingToGoal}</div>
-        </div>
-        <div className={styles.progressBar}>
-          <div
-            className={`${styles.progressFill} ${
-              currentProgress >= goalPercent ? styles.goalReached : ""
-            }`}
-            style={{ width: `${currentProgress}%` }}
-          />
+          <div className={styles.progressBar}>
+            <div
+              className={`${styles.progressFill} ${
+                currentProgress >= goalPercent ? styles.goalReached : ''
+              }`}
+              style={{ width: `${currentProgress}%` }}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <div>
+        <div className={styles.statsBox}>
+          <h4 className={styles.statsTitle}> Year-to-Date Summary</h4>
+          <div className={styles.statsRow}>
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{yearGoalPercent}%</p>
+              <p className={styles.statsDescription}>Goal</p>
+            </div>
+
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{yearCurrentProgress}%</p>
+              <p className={styles.statsDescription}>Active %</p>
+            </div>
+
+            <div className={styles.statsCol}>
+              <p className={styles.statsText}>{yearRemainingToGoal}</p>
+              <p className={styles.statsDescription}>Remaining Days</p>
+            </div>
+          </div>
+          <div className={styles.progressBar}>
+            <div
+              className={`${styles.progressFill} ${
+                yearCurrentProgress >= yearGoalPercent ? styles.goalReached : ''
+              }`}
+              style={{ width: `${yearCurrentProgress}%` }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

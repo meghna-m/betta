@@ -6,3 +6,11 @@
   justify-content: center;
   margin-top: 24px;
 }
+
+:root {
+  background-color: #abd0d1;
+}
+
+:root > body {
+  background-color: #abd0d1;
+}
