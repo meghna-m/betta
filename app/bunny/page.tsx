@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import Calendar from '../components/Calendar';
-import styles from './page.module.css';
+import styles from './Page.module.css';
 
 const PASSWORD = 'bunny';
 

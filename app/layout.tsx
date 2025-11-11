@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
+import styles from './Layout.module.css';
 import './globals.css';
-import styles from './layout.module.css';
 
 export const metadata: Metadata = {
   title: 'Meghna Mangat',
