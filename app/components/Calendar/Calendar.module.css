@@ -55,10 +55,9 @@
   padding: 1rem;
   border: 1px solid #ced4da;
   font-size: 14px;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  transition:
-    background-color 0.3s,
-    transform 0.2s;
+  user-select: none;
 }
 
 .checkedDay {

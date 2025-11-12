@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import { useEffect, useState } from 'react';
 
 import {
@@ -125,25 +127,50 @@ export default function Calendar() {
         </div>
 
         <div className={styles.daysGrid}>
+          {/* Empty boxes before 1st day */}
           {emptyDays.map((_, i) => (
             <div key={`empty-${i}`} className={styles.emptyDay}></div>
           ))}
 
-          {daysArray.map((day) => (
-            <div
-              key={day}
-              onClick={() => toggleDay(day)}
-              className={`${styles.day} ${
-                checkedDays[day] === 'active'
-                  ? styles.activeDay
-                  : checkedDays[day] === 'inactive'
-                    ? styles.inactiveDay
-                    : ''
-              }`}
-            >
-              {day}
-            </div>
-          ))}
+          {/* Actual days */}
+          {daysArray.map((day) => {
+            const state = checkedDays[day];
+            const isActive = state === 'active';
+            const isInactive = state === 'inactive';
+
+            return (
+              <motion.div
+                key={day}
+                onClick={() => toggleDay(day)}
+                initial={false}
+                animate={{
+                  scale: isActive ? 1 : isInactive ? 0.95 : 1,
+                  backgroundColor: isActive
+                    ? 'rgb(72, 187, 120)'
+                    : isInactive
+                      ? 'rgb(245, 101, 101)'
+                      : 'rgb(255, 255, 255)',
+                  color: isActive || isInactive ? '#fff' : '#000',
+                  boxShadow: isActive
+                    ? '0 0 8px rgba(72, 187, 120, 0.6)'
+                    : isInactive
+                      ? '0 0 8px rgba(245, 101, 101, 0.5)'
+                      : 'none',
+                }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className={`${styles.day} ${
+                  isActive
+                    ? styles.activeDay
+                    : isInactive
+                      ? styles.inactiveDay
+                      : ''
+                }`}
+              >
+                {day}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
       <div>
