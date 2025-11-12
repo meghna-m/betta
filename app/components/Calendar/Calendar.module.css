@@ -192,3 +192,7 @@
   background-color: #671a7a;
   color: white;
 }
+
+.emptyDay {
+  background-color: transparent;
+}

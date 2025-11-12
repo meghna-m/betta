@@ -23,10 +23,11 @@ export default function Calendar() {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
-  const weekdays = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(year, month, i + 1);
-    return date.toLocaleString('default', { weekday: 'short' });
-  });
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  const firstDayOfWeek = (new Date(year, month, 1).getDay() + 6) % 7;
+
+  const emptyDays = Array.from({ length: firstDayOfWeek }, (_, i) => i);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -124,6 +125,10 @@ export default function Calendar() {
         </div>
 
         <div className={styles.daysGrid}>
+          {emptyDays.map((_, i) => (
+            <div key={`empty-${i}`} className={styles.emptyDay}></div>
+          ))}
+
           {daysArray.map((day) => (
             <div
               key={day}
